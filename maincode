@@ -1,0 +1,41 @@
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+_, col, _ = st.columns([2,6,2])
+col.header('Streamlit 시각화')
+''
+iris_df = sns.load_dataset('iris')
+colors = {'setosa':'red','virginica':'green'}
+st.sidebar.title('Iris Species:벚꽃:')
+with st.sidebar:
+    selectX = st.selectbox('x변수',['sepal','petal'])
+    selectSpecies = st.multiselect('sdf',['sdf','sdfsdf'])
+    
+# 산점도 시각화
+st.title('Iris 데이터셋 시각화')
+st.write('아래에서 산점도를 선택하여 그래프를 확인할 수 있습니다.')
+
+# 산점도 유형 선택
+scatter_type = st.radio("산점도 유형 선택", ('꽃받침의 길이 vs. 꽃받침의 너비', '꽃잎의 길이 vs. 꽃잎의 너비'))
+
+# 투명도(alpha) 설정
+alpha = st.slider("투명도(alpha)", 0.1, 1.0, 0.5, 0.1)
+
+# 산점도 그리기
+if scatter_type == '꽃받침의 길이 vs. 꽃받침의 너비':
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(data=iris_df, x='sepal_length', y='sepal_width', hue='species', palette='viridis', alpha=alpha)
+    plt.xlabel('꽃받침의 길이')
+    plt.ylabel('꽃받침의 너비')
+    plt.title('꽃받침의 길이 vs. 꽃받침의 너비')
+    st.pyplot()
+
+elif scatter_type == '꽃잎의 길이 vs. 꽃잎의 너비':
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(data=iris_df, x='petal_length', y='petal_width', hue='species', palette='viridis', alpha=alpha)
+    plt.xlabel('꽃잎의 길이')
+    plt.ylabel('꽃잎의 너비')
+    plt.title('꽃잎의 길이 vs. 꽃잎의 너비')
+    st.pyplot()
